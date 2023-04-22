@@ -15,5 +15,9 @@
     "knowledge"
   ],
   "author": "Jordi Baylina",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "r1csfile": "^0.0.45",
+    "yargs": "^17.7.1"
+  }
 }

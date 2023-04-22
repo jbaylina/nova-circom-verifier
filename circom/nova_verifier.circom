@@ -5,17 +5,17 @@ include "evaluate_pol.circom";
 include "evaluate_lagrange.circom";
 
 
-template NovaVerifier(nPublicInputs, nPublicOutputs, nLogic, nDummy) {
+template NovaVerifier(nPublicInputs, nPublicOutputs, nWLogic, nELogic, nWDummy, nEDummy) {
 
     signal input publicInputs[nPublicInputs];       // z_0
     signal input publicOutputs[nPublicOutputs];    // z_i
 
-    signal input Wlogic[nLogic];   // Witness values
-    signal input Elogic[nLogic];   // Error values
+    signal input Wlogic[nWLogic];   // Witness values
+    signal input Elogic[nELogic];   // Error values
 
 
-    signal input Wdummy[nDummy][2];  // Groups o 2 chunks 2 128 bits
-    signal input Edummy[nDummy][2];  // Groups o 2 chunks 2 128 bits
+    signal input Wdummy[nWDummy][2];  // Groups o 2 chunks 2 128 bits
+    signal input Edummy[nEDummy][2];  // Groups o 2 chunks 2 128 bits
 
 
     signal output commWlogicX[2];  // 2 chunks of 128 bits in dummy field
@@ -23,8 +23,8 @@ template NovaVerifier(nPublicInputs, nPublicOutputs, nLogic, nDummy) {
     signal output commElogicX[2];  // 2 chunks of 128 bits in dummy field
     signal output commElogicY[2];  // 2 chunks of 128 bits in dummy field
 
-    signal output evalC;
-    signal output evalD;
+    signal output evalW;
+    signal output evalE;
 
     // Extract the logic circuit commitments from the Dummy witness
     commWlogicX <== Wdummy[1];
@@ -79,10 +79,22 @@ template NovaVerifier(nPublicInputs, nPublicOutputs, nLogic, nDummy) {
 
     signal x <== CWCE_to_scalar()(commWlogicX, commWlogicY, commElogicX, commElogicY);
 
-    signal L <== EvaluateLagrange(nLogic)(xi);
+    var maxLogic = nWLogic > nELogic ? nWLogic : nELogic;
+    signal L <== EvaluateLagrange(maxLogic)(xi);
 
-    evalC <== EvaluatePol(nLogic)(Wlogic, L);
-    evalE <== EvaluatePol(nLogic)(Elogic, L);
+    signal LW[nWLogic];
+    signal LE[nELogic];
+
+    for (var i=0; i< nWLogic; i++) {
+        LW[i] <== L[i];
+    }
+
+    for (var i=0; i< nELogic; i++) {
+        LE[i] <== L[i];
+    }
+
+    evalW <== EvaluatePol(nWLogic)(Wlogic, LW);
+    evalE <== EvaluatePol(nELogic)(Elogic, LE);
 
     // The verifier will check this openings.
 
