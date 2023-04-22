@@ -1,0 +1,19 @@
+{
+  "name": "nova_verfier",
+  "version": "0.0.1",
+  "description": "Nova Verifier in circom",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nova",
+    "circom",
+    "verifier",
+    "zk",
+    "zero",
+    "knowledge"
+  ],
+  "author": "Jordi Baylina",
+  "license": "GPL-3.0"
+}

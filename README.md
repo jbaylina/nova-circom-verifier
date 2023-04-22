@@ -1,0 +1,1 @@
+# Nova circom verifier generator
