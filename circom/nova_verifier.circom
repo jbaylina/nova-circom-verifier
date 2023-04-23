@@ -5,24 +5,22 @@ include "evaluate_pol.circom";
 include "evaluate_lagrange.circom";
 
 
-template NovaVerifier(nPublicInputs, nPublicOutputs, nWLogic, nELogic, nWDummy, nEDummy) {
+template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
 
-    signal input publicInputs[nPublicInputs];       // z_0
-    signal input publicOutputs[nPublicOutputs];    // z_i
+    signal input publicInputLogic;     // z_0
+    signal output publicOutputLogic;    // z_i
 
     signal input Wlogic[nWLogic];   // Witness values
     signal input Elogic[nELogic];   // Error values
 
-
     signal input Wdummy[nWDummy][2];  // Groups o 2 chunks 2 128 bits
     signal input Edummy[nEDummy][2];  // Groups o 2 chunks 2 128 bits
 
-
+    // Required to do the KATE opening outside
     signal output commWlogicX[2];  // 2 chunks of 128 bits in dummy field
     signal output commWlogicY[2];  // 2 chunks of 128 bits in dummy field
     signal output commElogicX[2];  // 2 chunks of 128 bits in dummy field
     signal output commElogicY[2];  // 2 chunks of 128 bits in dummy field
-
     signal output evalW;
     signal output evalE;
 
@@ -30,10 +28,9 @@ template NovaVerifier(nPublicInputs, nPublicOutputs, nWLogic, nELogic, nWDummy, 
     commWlogicX <== Wdummy[1];
     commWlogicY <== Wdummy[2];
     commElogicX <== Wdummy[3];
-    commElogicX <== Wdummy[4];
+    commElogicY <== Wdummy[4];
 
     signal uLogic <== Wlogic[5];
-
 
     signal commWdummyX;  // 4 chunks of 64 bits in dummy field
     signal commWdummyY;  // 4 chunks of 64 bits in dummy field
@@ -41,23 +38,18 @@ template NovaVerifier(nPublicInputs, nPublicOutputs, nWLogic, nELogic, nWDummy, 
     signal commEdummyY;  // 4 chunks of 64 bits in dummy field
     // Extract the dummy circuit commitments from the logic witness
     commWdummyX <= Wlogic[1];
-    commWdummyX <= Wlogic[2];
-    commWdummyX <= Wlogic[3];
-    commWdummyX <= Wlogic[4];
+    commWdummyY <= Wlogic[2];
+    commEdummyX <= Wlogic[3];
+    commEdummyY <= Wlogic[4];
 
-    signal uDummy[4] <== Wdummy[5]
+    signal uDummy[2] <== Wdummy[5];
 
     // Extract public outputs
 
-    for (var i=0; i<nPublicOutputs; i++) {
-        Wlogic[6 + i] ==> publicOutputs[i];
-    }
+    publicOutput <== Wlogic[7];
+    publicInput === Wlogic[8];
 
     // Asset public inputs
-
-    for (var i=0; i<nPublicInputs; i++) {
-        Wlogic[6 + nPublicOutputs + i] === publicInputs[i];
-    }
 
     component verifyWitnessLogic = VeifyWitnessLogic();
     verifyWitnessLogic.W <== Wlogic;
@@ -111,6 +103,5 @@ template NovaVerifier(nPublicInputs, nPublicOutputs, nWLogic, nELogic, nWDummy, 
     [commEdummyX_calc, commEdummyY_calc] <== PedersenCommitment(nDummy)(Edummy);
     commEdummyX_calc === commEdummyX;
     commEdummyY_calc === commEdummyY;
-
 
 }
