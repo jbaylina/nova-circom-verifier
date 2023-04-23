@@ -10,12 +10,6 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     signal input publicInputLogic;     // z_0
     signal output publicOutputLogic;    // z_i
 
-    signal input Wlogic[nWLogic];   // Witness values
-    signal input Elogic[nELogic];   // Error values
-
-    signal input Wdummy[nWDummy][2];  // Groups o 2 chunks 2 128 bits
-    signal input Edummy[nEDummy][2];  // Groups o 2 chunks 2 128 bits
-
     // Required to do the KATE opening outside
     signal output commWlogicX[2];  // 2 chunks of 128 bits in dummy field
     signal output commWlogicY[2];  // 2 chunks of 128 bits in dummy field
@@ -23,6 +17,14 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     signal output commElogicY[2];  // 2 chunks of 128 bits in dummy field
     signal output evalW;
     signal output evalE;
+
+    signal input Wlogic[nWLogic];   // Witness values
+    signal input Elogic[nELogic];   // Error values
+
+    signal input Wdummy[nWDummy][2];  // Groups o 2 chunks 2 128 bits
+    signal input Edummy[nEDummy][2];  // Groups o 2 chunks 2 128 bits
+
+
 
     // Extract the logic circuit commitments from the Dummy witness
     commWlogicX <== Wdummy[1];
