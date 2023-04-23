@@ -1,4 +1,6 @@
-// Evaluates a polynomial from the Lagrangre evaluations and coeficients
+pragma circom 2.1.0;
+
+// Evaluates a polynomial from the Lagrange evaluations and coeficients
 
 template EvaluatePol(n) {
     signal input coefs[n];
