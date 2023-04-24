@@ -1,4 +1,4 @@
-template NovaFold {
+template NovaFold() {
 
     // Public output
     signal output commitWx_other_out;  // Commitment of the other circuit
@@ -29,8 +29,6 @@ template NovaFold {
 
     signal input i;
     signal input zi_out;
-
-
 
     // First Hash
     signal hIn = Poseidon()(
@@ -65,9 +63,8 @@ template NovaFold {
 
     signal [p_rW_x, p_rW_y] <== ScalarMulAny(254)(rBits, commitWx_other_in, commitWy_other_in);
 
-    signal uBits <== OtherToBits()(u_other);
     signal u_other_in_bits <== OtherToBits()(u_other_in);
-    signal u_other_out_bits <== mulAddOther()(rBits, uBits, u_other_in_bits);
+    signal u_other_out_bits <== addOther()(rBits, u_other_in_bits);
     signal u_other_out <== BitsToOther()(u_other_out_bits);
 
     signal xBits <== OtherToBits()(x_other);

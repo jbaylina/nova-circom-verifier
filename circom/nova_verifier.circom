@@ -24,8 +24,6 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     signal input Wdummy[nWDummy][2];  // Groups o 2 chunks 2 128 bits
     signal input Edummy[nEDummy][2];  // Groups o 2 chunks 2 128 bits
 
-
-
     // Extract the logic circuit commitments from the Dummy witness
     commWlogicX <== Wdummy[1];
     commWlogicY <== Wdummy[2];
@@ -33,6 +31,8 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     commElogicY <== Wdummy[4];
 
     signal uLogic <== Wlogic[5];
+
+    Wlogic[0] === uLogic;  // Forces 1 to all registers
 
     signal commWdummyX;  // 4 chunks of 64 bits in dummy field
     signal commWdummyY;  // 4 chunks of 64 bits in dummy field
@@ -45,6 +45,9 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     commEdummyY <= Wlogic[4];
 
     signal uDummy[2] <== Wdummy[5];
+
+    Wdummy[0][0] === uDummy[0];  // Forces 1 to all registers
+    Wdummy[0][1] === uDummy[1];  // Forces 1 to all registers
 
     // Extract public outputs
 
