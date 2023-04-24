@@ -62,7 +62,7 @@ template NovaVerifier(nWLogic, nELogic, nWDummy, nEDummy) {
     verifyWitnessLogic.u <== uLogic;
 
     component verifyWitnessDummy = VeifyWitnessDummy();
-    verifyWitnessDummy.W <== Wlo;
+    verifyWitnessDummy.W <== WDummy;
     verifyWitnessDummy.E <== Edummy;
     verifyWitnessDummy.u <== uDummy;
 

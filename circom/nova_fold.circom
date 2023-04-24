@@ -40,15 +40,14 @@ template NovaFold() {
         commitEx_other_in,
         commitEy_other_in,
         u_other_in[0], u_other_in[1];
-        x_other_in[0], x_other_out[1];
-        z0_in,
-        zi_in
+        x_other_in[0], x_other_in[1];
     );
 
+    // Check that the input matches
     signal hInBits <== OtherToBits()(hIn);
     signal x_other_calc <== BitsToOther()(hInBits);
-    x_other_calc[0] === x_other[0];
-    x_other_calc[1] === x_other[1];
+    (x_other_calc[0] - x_other[0]) * i === 0;
+    (x_other_calc[1] - x_other[1]) * i === 0;
 
     // NIFS.V
     signal r <== Poseidon(2)(commitTx_other, commitTx_other);
@@ -83,8 +82,6 @@ template NovaFold() {
         commitEy_other_out,
         u_other_other_out[0], u_other_out[1];
         x_other_other_out[0], x_other_out[1];
-        z0_in,
-        zi_in
     );
 
 }
