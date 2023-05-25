@@ -43,6 +43,8 @@ template NovaFold() {
         x_other_in[0], x_other_in[1];
     );
 
+    signal isZero = IsZero()(i);
+
     // Check that the input matches
     signal hInBits <== OtherToBits()(hIn);
     signal x_other_calc <== BitsToOther()(hInBits);
@@ -76,12 +78,14 @@ template NovaFold() {
         i + 1,
         z0,
         zi_out,
-        commitWx_other_out,
-        commitWy_other_out,
-        commitEx_other_out,
-        commitEy_other_out,
-        u_other_other_out[0], u_other_out[1];
-        x_other_other_out[0], x_other_out[1];
+        commitWx_other_out * (1 - isZero),
+        commitWy_other_out * (1 - isZero),
+        commitEx_other_out * (1 - isZero),
+        commitEy_other_out * (1 - isZero),
+        u_other_out[0] * (1 - isZero),
+        u_other_out[1] * (1 - isZero);
+        x_other_other_out[0] * (1 - isZero),
+        x_other_out[1] * (1 - isZero);
     );
 
 }

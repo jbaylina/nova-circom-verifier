@@ -15,14 +15,16 @@
     "knowledge"
   ],
   "devDependencies": {
+    "bignumber.js": "^9.1.1",
     "chai": "^4.3.6",
     "circom_tester": "^0.0.18",
-    "mocha": "^10.0.0",
-    "bignumber.js": "^9.1.1"
+    "mocha": "^10.0.0"
   },
   "author": "Jordi Baylina",
   "license": "GPL-3.0",
   "dependencies": {
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
     "r1csfile": "^0.0.45",
     "yargs": "^17.7.1"
   }
