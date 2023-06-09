@@ -61,7 +61,7 @@ template ECDouble() {
 
 
 // Here I'm assuming that the point is never going to be related with the offset, so
-// it always be adds in the operations and never doublings, and the result is never be zero
+// it always adds in the operations and never doublings, and the result is never going to be zero
 // in the partial calculations.
 // In the substraction of the last one, the result can be 0 so that's why whe use AddCanZero
 

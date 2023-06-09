@@ -100,11 +100,10 @@ describe("Scalar Mul Test Test", function () {
     });
     it("Check scalarmul with point and scalar to 0", async () => {
 
-        const p = ec.zero;
-        const s = 0n;
+        const res1 = poseidonBN([1]);
 
         const input  = {
-            s: num2bits(s),
+            in: num2bits(s),
             in: p
         };
 
